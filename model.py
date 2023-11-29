@@ -1,6 +1,8 @@
+import torch.nn as nn
+
 class ClipCaptionModel(nn.Module):
 
-    def forward(self, tokens: T, prefix: T, mask: Optional[T] = None, labels: Optional[T] = None):
+    def forward(self, tokens, prefix, mask= None, labels= None):
         embedding_text = self.gpt.transformer.wte(tokens)
         prefix_projections = self.clip_project(prefix).view(-1, self.prefix_length, self.gpt_embedding_size)
         embedding_cat = torch.cat((prefix_projections, embedding_text), dim=1)
@@ -10,7 +12,7 @@ class ClipCaptionModel(nn.Module):
         out = self.gpt(inputs_embeds=embedding_cat, labels=labels, attention_mask=mask)
         return out
 
-    def __init__(self, prefix_length: int, prefix_size: int = 512):
+    def __init__(self, prefix_length, prefix_size= 512):
         super(ClipCaptionModel, self).__init__()
         self.prefix_length = prefix_length
         self.gpt = GPT2LMHeadModel.from_pretrained('gpt2')

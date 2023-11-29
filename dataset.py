@@ -14,6 +14,7 @@ import os
 from torchvision.io import read_image
 from torchvision import transforms
 from PIL import Image
+import torch.nn as nn
 
 transform = transforms.Compose([
     transforms.Resize((224, 224)),

@@ -1,9 +1,11 @@
+import torch.nn as nn
+import torch.nn.functional as F
 class MLP(nn.Module):
 
-    def forward(self, x: T) -> T:
+    def forward(self, x):
         return self.model(x)
 
-    def __init__(self, sizes: Tuple[int, ...], bias=True, act=nn.Tanh):
+    def __init__(self, sizes, bias=True, act=nn.Tanh):
         super(MLP, self).__init__()
         layers = []
         for i in range(len(sizes) -1):
