@@ -1,4 +1,4 @@
-improt gdown
+import gdown
 
 class Downloader(object):
     def __init__(self):
