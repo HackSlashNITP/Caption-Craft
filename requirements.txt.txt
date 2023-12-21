@@ -1,6 +1,11 @@
-torch
-gdown
-transformers
-tqdm
-PIL
-scikit-image
+5 disc math fn
+7 real analysis fn
+11 Data Structure an
+12 digital fn
+13 oops fn
+14 p and s an
+
+--__the end__--
+
+Andrew Huberman 
+
