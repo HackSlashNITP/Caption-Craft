@@ -13,7 +13,7 @@ class SinglePass(nn.Module):
         self.scheduler = None
         self.current_epoch = 0
         self._model_state = None
-        self._train_state = None
+        self._train_state = Nones
         self.device = device
         self.clip_grad_norm = None
         self.metrics = {"train": {}, "test": {}}
