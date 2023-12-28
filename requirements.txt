@@ -1,0 +1,6 @@
+torch
+gdown
+transformers
+tqdm
+PIL
+scikit-image
