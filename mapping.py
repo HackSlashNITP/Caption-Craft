@@ -1,7 +1,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 class MLP(nn.Module):
-
     def forward(self, x):
         return self.model(x)
 
