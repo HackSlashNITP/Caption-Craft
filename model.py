@@ -1,4 +1,8 @@
 import torch.nn as nn
+from transformers import GPT2LMHeadModel
+import torch
+import torch.nn as nn
+from mapping import MLP
 
 class ClipCaptionModel(nn.Module):
 
@@ -20,5 +24,6 @@ class ClipCaptionModel(nn.Module):
         if prefix_length > 10:  # not enough memory
             self.clip_project = nn.Linear(prefix_size, self.gpt_embedding_size * prefix_length)
         else:
-            self.clip_project = MLP((prefix_size, (self.gpt_embedding_size * prefix_length) // 2, self.gpt_embedding_size * prefix_length))
+            self.clip_project = MLP(in_dim=prefix_size, h_dim=(self.gpt_embedding_size * prefix_length) // 2, out_dim=self.gpt_embedding_size * prefix_length)
+
 
