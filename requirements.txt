@@ -2,5 +2,5 @@ torch
 gdown
 transformers
 tqdm
-PIL
+pillow
 scikit-image

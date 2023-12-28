@@ -15,7 +15,8 @@
 #         generated = model.gpt.transformer.wte(tokens)
 #   for i in range(max_len):
 #     outputs = model.gpt(inputs_embeds = generated)
-
+import torch
+import numpy as np
 
 def generate_beam(model, tokenizer, beam_size: int = 5, prompt=None, embed=None,
                   entry_length=67, temperature=1., stop_token: str = '.'):

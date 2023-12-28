@@ -10,6 +10,7 @@ subprocess.run(["pip", "install", "scikit-image"])
 subprocess.run(["pip", "install", "ftfy"])
 subprocess.run(["pip", "install", "torch"])
 subprocess.run(["pip", "install", "torchvision"])
+subprocess.run(["pip", "install", "CLIP"])
 
 from CLIP.clip import *
 import os
