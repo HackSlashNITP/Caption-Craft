@@ -24,12 +24,16 @@ from tqdm import tqdm, trange
 import skimage.io as io
 import PIL.Image
 
+from flask import Flask, redirect, url_for, request, render_template
+from werkzeug.utils import secure_filename
+
+
 downloader = Downloader()
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 current_directory = os.getcwd()
-save_path = os.path.join(os.path.dirname(current_directory), "pretrained_models")
+save_path = os.path.join(os.path.dirname(current_directory), "Caption-Craft/pretrained_models")
 os.makedirs(save_path, exist_ok=True)
 model_path = os.path.join(save_path, 'model_weights.pkl')
 
@@ -46,15 +50,40 @@ model.load_state_dict(torch.load(model_path, map_location="cpu"),strict=False)
 
 model = model.eval()
 model = model.to(device)
+app = Flask(__name__)
 
-image = io.imread("CLIP//CLIP.png")
-pil_image = PIL.Image.fromarray(image)
+def model_predict(img_path, model):
+    image = io.imread(img_path)
+    pil_image = PIL.Image.fromarray(image)
 
-image = preprocess(pil_image).unsqueeze(0).to(device)
-with torch.no_grad():
-    prefix = clip_model.encode_image(image).to(device, dtype=torch.float32)
-    prefix_embed = model.clip_project(prefix).reshape(1, prefix_length, -1)
-    generated_text_prefix = generate_beam(model, tokenizer, embed=prefix_embed)[0]
+    image = preprocess(pil_image).unsqueeze(0).to(device)
+    with torch.no_grad():
+        prefix = clip_model.encode_image(image).to(device, dtype=torch.float32)
+        prefix_embed = model.clip_project(prefix).reshape(1, prefix_length, -1)
+        generated_text_prefix = generate_beam(model, tokenizer, embed=prefix_embed)[0]
+    return generated_text_prefix
+    
 
-print('\n')
-print(generated_text_prefix)
+@app.route('/', methods = ['GET'])
+def index(): 
+    return render_template('index.html')
+
+@app.route('/predict', methods = ['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        f = request.files['file']
+
+        basepath = os.path.dirname(__file__)
+        file_path = os.path.join(
+            basepath, 'uploads', secure_filename(f.filename)
+        )
+        f.save(file_path)
+        preds = model_predict(file_path, model)
+
+        
+        return preds
+    return None
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
