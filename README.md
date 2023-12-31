@@ -68,7 +68,7 @@ To run on Google Colab:
 * copy the code in `multicaption.py` and run it.
 * Save your images inside the `Caption` folder at the base dir, which is `/content` by default
 
-Code for reference: 
+#### Code for reference: 
 ```python
 folder_path = "/content/Caption"
 ImageMatrix('/content/Caption', '/content/image_captions.csv')
