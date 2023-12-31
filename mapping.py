@@ -36,7 +36,7 @@ class MultiHeadAttention(nn.Module):
     out = torch.einsum('bnmh,bmhd->bnhd',att,v).reshape(b,n,c)
     return out
 
-class MLP(nn.Module):
+class MLPB(nn.Module):
   def __init__(self, in_dim, h_dim, out_dim=None,act=F.relu,dropout=0.0):
     super().__init__()
     out_d = out_dim if out_dim is not None else in_dim
@@ -58,7 +58,7 @@ class Block(nn.Module):
     self.norm1 = norm_layer(dim_self)
     self.attn = MultiHeadAttention(dim_self,num_heads,bias=bias,dropout=dropout)
     self.norm2 = norm_layer(dim_self)
-    self.mlp = MLP(dim_self,int(dim_self*mlp_ratio),act=act,dropout=dropout)
+    self.mlp = MLPB(dim_self,int(dim_self*mlp_ratio),act=act,dropout=dropout)
   def forward(self,x):
     x = x + self.attn(self.norm1(x))
     x = x + self.mlp(self.norm2(x))

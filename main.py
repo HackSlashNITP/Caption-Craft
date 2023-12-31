@@ -29,8 +29,8 @@ save_path = os.path.join(os.path.dirname(current_directory), "Caption-Craft/pret
 os.makedirs(save_path, exist_ok=True)
 model_path = os.path.join(save_path, 'model_weights.pkl')
 
-downloader.download_file("14pXWwB4Zm82rsDdvbGguLfx9F8aM7ovT", model_path)
-
+if not os.path.exists(model_path):
+    downloader.download_file("14pXWwB4Zm82rsDdvbGguLfx9F8aM7ovT", model_path)
 clip_model, preprocess = load("ViT-B/32", device=device, jit=False)
 tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 
@@ -79,5 +79,4 @@ def upload():
     return None
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    app.run(debug=False, use_reloader=False)
