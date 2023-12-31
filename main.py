@@ -29,7 +29,7 @@ save_path = os.path.join(os.path.dirname(current_directory), "Caption-Craft/pret
 os.makedirs(save_path, exist_ok=True)
 model_path = os.path.join(save_path, 'model_weights.pkl')
 
-#downloader.download_file("14pXWwB4Zm82rsDdvbGguLfx9F8aM7ovT", model_path)
+downloader.download_file("14pXWwB4Zm82rsDdvbGguLfx9F8aM7ovT", model_path)
 
 clip_model, preprocess = load("ViT-B/32", device=device, jit=False)
 tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
@@ -38,7 +38,7 @@ prefix_length = 10
 
 model = ClipCaptionModel(prefix_length)
 
-#model.load_state_dict(torch.load(model_path, map_location="cpu"),strict=False)
+model.load_state_dict(torch.load(model_path, map_location="cpu"),strict=False)
 
 model = model.eval()
 model = model.to(device)
