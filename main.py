@@ -3,6 +3,7 @@ from utils import Downloader
 from mapping import MLP
 from model import *
 from generate import generate_beam
+import subprocess
 subprocess.run(["git", "clone", "https://github.com/openai/CLIP.git"])
 subprocess.run(["pip", "install", "CLIP"])
 
@@ -72,24 +73,11 @@ def upload():
         if f.filename == '':
             return "No selected file"
 
-        # Process the file without saving it
         image = PIL.Image.open(f.stream)
         preds = model_predict(image, model, path=False)
         return preds
     return None
 
-if name == 'main':
+if __name__ == '__main__':
     app.run(debug=True)
-app = Flask(_name_)
 
-def model_predict(img, model, path=False):
-    if path:
-        im = io.imread(img)
-        img = PIL.Image.fromarray(im)
-    pil_image = img
-    image = preprocess(pil_image).unsqueeze(0).to(device)
-    with torch.no_grad():
-        prefix = clip_model.encode_image(image).to(device, dtype=torch.float32)
-        prefix_embed = model.clip_project(prefix).reshape(1, prefix_length, -1)
-        generated_text_prefix = generate_beam(model, tokenizer, embed=prefix_embed)[0]
-    return generated_text_prefix
