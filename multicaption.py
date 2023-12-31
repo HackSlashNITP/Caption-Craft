@@ -183,7 +183,7 @@ folder_path = "/content/Caption"
 process_images_in_folder(folder_path, model)
 
 
-im = ImageMatrix('content/Caption', '/content/image_captions.csv')
+im = ImageMatrix('/content/Caption', '/content/image_captions.csv')
 im.rand((3, 2)).display_image(
     check_col='Image_name',
     display_label=True,
