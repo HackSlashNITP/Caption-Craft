@@ -45,7 +45,7 @@ A `.csv` file will be formed which has `Sl_No`, `Image_name` and `Image_caption`
 To run on Google Colab: 
 * `!git clone https://github.com/HackSlashNITP/Caption-Craft`
 * Save your images inside the `Caption` folder at the base dir, which is `/content` by default
-* `!cd Caption-Craft`
+* `%cd Caption-Craft`
 * `!python multicaption.py`
   
 <hr>
