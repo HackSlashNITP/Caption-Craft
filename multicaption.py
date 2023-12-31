@@ -163,7 +163,7 @@ def model_predict(img, model, path=False):
 
 #code for .csv generation
 def process_images_in_folder(folder_path, model):
-    output_csv_file = "image_captions.csv"
+    output_csv_file = "/content/image_captions.csv"
     with open(output_csv_file, 'w', newline='') as csvfile:
         fieldnames = ['Sl_No', 'Image_name', 'Image_caption']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
