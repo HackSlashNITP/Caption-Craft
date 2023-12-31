@@ -1,4 +1,3 @@
-import subprocess
 import gdown
 from utils import Downloader
 from mapping import MLP
@@ -42,7 +41,8 @@ model = ClipCaptionModel(prefix_length)
 
 model = model.eval()
 model = model.to(device)
-app = Flask(_name_)
+
+app = Flask(__name__)
 
 def model_predict(img, model, path=False):
     if path:
@@ -57,3 +57,40 @@ def model_predict(img, model, path=False):
     return generated_text_prefix
 
 
+@app.route('/', methods = ['GET'])
+def index(): 
+    return render_template('index.html')
+
+@app.route('/predict', methods = ['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return "No file part"
+
+        f = request.files['file']
+
+        if f.filename == '':
+            return "No selected file"
+
+        # Process the file without saving it
+        image = PIL.Image.open(f.stream)
+        preds = model_predict(image, model, path=False)
+        return preds
+    return None
+
+if name == 'main':
+    app.run(debug=True)
+=======
+app = Flask(_name_)
+
+def model_predict(img, model, path=False):
+    if path:
+        im = io.imread(img)
+        img = PIL.Image.fromarray(im)
+    pil_image = img
+    image = preprocess(pil_image).unsqueeze(0).to(device)
+    with torch.no_grad():
+        prefix = clip_model.encode_image(image).to(device, dtype=torch.float32)
+        prefix_embed = model.clip_project(prefix).reshape(1, prefix_length, -1)
+        generated_text_prefix = generate_beam(model, tokenizer, embed=prefix_embed)[0]
+    return generated_text_prefix
