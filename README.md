@@ -16,6 +16,8 @@ This project is aimed to caption the images which is passed to this model.
 
 <hr>
 
+### Multi-Image Captioning
+
 `Using local environment`
 ```
 git clone https://github.com/HackSlashNITP/Caption-Craft
