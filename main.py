@@ -2,6 +2,7 @@ import gdown
 from utils import Downloader
 from mapping import MLP
 from model import *
+import argparse
 from generate import generate_beam
 import subprocess
 subprocess.run(["git", "clone", "https://github.com/openai/CLIP.git"])
@@ -18,8 +19,6 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 from tqdm import tqdm, trange
 import skimage.io as io
 import PIL.Image
-from flask import Flask, redirect, url_for, request, render_template
-from werkzeug.utils import secure_filename
 downloader = Downloader()
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -42,9 +41,6 @@ model.load_state_dict(torch.load(model_path, map_location="cpu"),strict=False)
 
 model = model.eval()
 model = model.to(device)
-
-app = Flask(__name__)
-
 def model_predict(img, model, path=False):
     if path:
         im = io.imread(img)
@@ -58,25 +54,8 @@ def model_predict(img, model, path=False):
     return generated_text_prefix
 
 
-@app.route('/', methods = ['GET'])
-def index(): 
-    return render_template('index.html')
-
-@app.route('/predict', methods = ['GET', 'POST'])
-def upload():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            return "No file part"
-
-        f = request.files['file']
-
-        if f.filename == '':
-            return "No selected file"
-
-        image = PIL.Image.open(f.stream)
-        preds = model_predict(image, model, path=False)
-        return preds
-    return None
-
 if __name__ == '__main__':
-    app.run(debug=False, use_reloader=False)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('filename')
+    args = parser.parse_args()
+    print(model_predict(args.filename, model, path=True))
