@@ -16,8 +16,6 @@ This project is aimed to caption the images which is passed to this model.
 
 <hr>
 
-### Multi-Image Captioning
-
 `Using local environment`
 ```
 git clone https://github.com/HackSlashNITP/Caption-Craft
@@ -27,7 +25,11 @@ python flask.py
 ```
 
 <hr>
-Run on Local System
+
+
+### Multi-Image Captioning
+
+`Run on Local System`
 
 * `git clone https://github.com/HackSlashNITP/Caption-Craft`
 * `cd Caption-Craft`
