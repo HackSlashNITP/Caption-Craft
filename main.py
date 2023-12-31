@@ -80,7 +80,6 @@ def upload():
 
 if name == 'main':
     app.run(debug=True)
-=======
 app = Flask(_name_)
 
 def model_predict(img, model, path=False):
