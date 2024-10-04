@@ -1,3 +1,4 @@
+![hacktoberfest](https://img.shields.io/badge/hacktoberfest-green?style=flat)
 # Caption-Craft
 This project is aimed to caption the images which is passed to this model.
 
